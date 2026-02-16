@@ -8,14 +8,14 @@ import os
 import sys
 from pathlib import Path
 from typing import List, Tuple, Optional, Union
-from moviepy.editor import (
+from moviepy import (
     VideoFileClip, 
     concatenate_videoclips, 
     CompositeVideoClip,
     TextClip,
-    ImageClip
+    ImageClip,
+    vfx
 )
-from moviepy.video.fx.all import resize, crop, fadein, fadeout
 
 
 class VideoEditor:
@@ -102,15 +102,13 @@ class VideoEditor:
             Self for method chaining
         """
         if scale:
-            self.clip = self.clip.resize(scale)
-        elif width or height:
-            new_size = (width, height) if width and height else None
-            if width and not height:
-                self.clip = self.clip.resize(width=width)
-            elif height and not width:
-                self.clip = self.clip.resize(height=height)
-            else:
-                self.clip = self.clip.resize(newsize=new_size)
+            self.clip = self.clip.with_effects([vfx.Resize(scale)])
+        elif width and height:
+            self.clip = self.clip.with_effects([vfx.Resize((width, height))])
+        elif width:
+            self.clip = self.clip.with_effects([vfx.Resize(width=width)])
+        elif height:
+            self.clip = self.clip.with_effects([vfx.Resize(height=height)])
         return self
     
     def crop_video(self, x1: int, y1: int, x2: int, y2: int) -> 'VideoEditor':
@@ -126,7 +124,7 @@ class VideoEditor:
         Returns:
             Self for method chaining
         """
-        self.clip = crop(self.clip, x1=x1, y1=y1, x2=x2, y2=y2)
+        self.clip = self.clip.with_effects([vfx.Crop(x1=x1, y1=y1, x2=x2, y2=y2)])
         return self
     
     def add_fade(self, fade_in_duration: float = 0, fade_out_duration: float = 0) -> 'VideoEditor':
@@ -140,10 +138,13 @@ class VideoEditor:
         Returns:
             Self for method chaining
         """
+        effects = []
         if fade_in_duration > 0:
-            self.clip = fadein(self.clip, fade_in_duration)
+            effects.append(vfx.FadeIn(fade_in_duration))
         if fade_out_duration > 0:
-            self.clip = fadeout(self.clip, fade_out_duration)
+            effects.append(vfx.FadeOut(fade_out_duration))
+        if effects:
+            self.clip = self.clip.with_effects(effects)
         return self
     
     def set_speed(self, factor: float) -> 'VideoEditor':
@@ -156,7 +157,7 @@ class VideoEditor:
         Returns:
             Self for method chaining
         """
-        self.clip = self.clip.speedx(factor)
+        self.clip = self.clip.with_effects([vfx.MultiplySpeed(factor)])
         return self
     
     def save(self, output_path: str, codec: str = 'libx264', audio_codec: str = 'aac', fps: Optional[int] = None) -> str:
