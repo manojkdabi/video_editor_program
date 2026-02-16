@@ -1,0 +1,19 @@
+# Video Editor Program - Python Dependencies
+# Install using: pip install -r requirements.txt
+
+# GUI Framework
+customtkinter>=5.2.0
+Pillow>=10.0.0
+
+# Video Processing
+moviepy>=1.0.3
+numpy>=1.24.0
+
+# Audio Processing
+pydub>=0.25.1
+
+# Image Processing
+opencv-python>=4.8.0
+
+# Additional utilities
+python-dateutil>=2.8.2
