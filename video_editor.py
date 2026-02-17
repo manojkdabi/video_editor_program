@@ -5,6 +5,7 @@ A simple yet powerful video editing tool for processing agricultural and educati
 """
 
 import os
+import logging
 from typing import List, Tuple, Optional, Union
 from moviepy import (
     VideoFileClip, 
@@ -243,6 +244,14 @@ class VideoMerger:
             
             # Apply crossfade if requested
             if transition_duration > 0:
+                # Validate transition duration doesn't exceed shortest clip
+                min_duration = min(clip.duration for clip in clips)
+                if transition_duration > min_duration:
+                    raise ValueError(
+                        f"transition_duration ({transition_duration}s) exceeds the shortest clip "
+                        f"duration ({min_duration}s). Please use a shorter transition."
+                    )
+                
                 # Apply crossfade-in to all clips except the first
                 for i in range(1, len(clips)):
                     clips[i] = clips[i].with_effects([vfx.CrossFadeIn(transition_duration)])
@@ -268,13 +277,13 @@ class VideoMerger:
             for clip in clips:
                 try:
                     clip.close()
-                except Exception:
-                    pass  # Ignore cleanup errors
+                except Exception as e:
+                    logging.warning(f"Error closing clip during cleanup: {e}")
             if final_clip:
                 try:
                     final_clip.close()
-                except Exception:
-                    pass  # Ignore cleanup errors
+                except Exception as e:
+                    logging.warning(f"Error closing final_clip during cleanup: {e}")
 
 
 def create_title_video(
