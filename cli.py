@@ -5,8 +5,6 @@ Command-line interface for the Video Editor Program.
 
 import argparse
 import sys
-import os
-from typing import List
 from video_editor import VideoEditor, VideoMerger, create_title_video
 
 

@@ -5,15 +5,12 @@ A simple yet powerful video editing tool for processing agricultural and educati
 """
 
 import os
-import sys
-from pathlib import Path
 from typing import List, Tuple, Optional, Union
 from moviepy import (
     VideoFileClip, 
     concatenate_videoclips, 
     CompositeVideoClip,
     TextClip,
-    ImageClip,
     vfx
 )
 
@@ -33,7 +30,6 @@ class VideoEditor:
         
         self.video_path = video_path
         self.clip = VideoFileClip(video_path)
-        self.output_clips = []
     
     def trim(self, start_time: float, end_time: float) -> 'VideoEditor':
         """
@@ -74,8 +70,21 @@ class VideoEditor:
         Returns:
             Self for method chaining
         """
+        # Validate start_time
+        if start_time < 0:
+            raise ValueError(f"start_time must be non-negative, got {start_time}")
+        if start_time >= self.clip.duration:
+            raise ValueError(
+                f"start_time {start_time} is at or after the end of the clip "
+                f"(duration {self.clip.duration})"
+            )
+        
+        # Compute or validate duration
         if duration is None:
             duration = self.clip.duration - start_time
+        else:
+            if duration <= 0:
+                raise ValueError(f"duration must be positive, got {duration}")
         
         txt_clip = TextClip(
             text, 
@@ -223,29 +232,49 @@ class VideoMerger:
             Path to the saved file
         """
         clips = []
-        for path in video_paths:
-            if not os.path.exists(path):
-                raise FileNotFoundError(f"Video file not found: {path}")
-            clips.append(VideoFileClip(path))
+        final_clip = None
         
-        if transition_duration > 0:
-            final_clip = concatenate_videoclips(clips, method="compose", padding=-transition_duration)
-        else:
-            final_clip = concatenate_videoclips(clips, method="compose")
-        
-        # Create output directory if needed
-        output_dir = os.path.dirname(output_path)
-        if output_dir and not os.path.exists(output_dir):
-            os.makedirs(output_dir)
-        
-        final_clip.write_videofile(output_path, codec='libx264', audio_codec='aac')
-        
-        # Clean up
-        for clip in clips:
-            clip.close()
-        final_clip.close()
-        
-        return output_path
+        try:
+            # Load all video clips
+            for path in video_paths:
+                if not os.path.exists(path):
+                    raise FileNotFoundError(f"Video file not found: {path}")
+                clips.append(VideoFileClip(path))
+            
+            # Apply crossfade if requested
+            if transition_duration > 0:
+                # Apply crossfade-in to all clips except the first
+                for i in range(1, len(clips)):
+                    clips[i] = clips[i].with_effects([vfx.CrossFadeIn(transition_duration)])
+                final_clip = concatenate_videoclips(
+                    clips,
+                    method="compose",
+                    padding=-transition_duration
+                )
+            else:
+                final_clip = concatenate_videoclips(clips, method="compose")
+            
+            # Create output directory if needed
+            output_dir = os.path.dirname(output_path)
+            if output_dir and not os.path.exists(output_dir):
+                os.makedirs(output_dir)
+            
+            final_clip.write_videofile(output_path, codec='libx264', audio_codec='aac')
+            
+            return output_path
+            
+        finally:
+            # Clean up all clips
+            for clip in clips:
+                try:
+                    clip.close()
+                except Exception:
+                    pass  # Ignore cleanup errors
+            if final_clip:
+                try:
+                    final_clip.close()
+                except Exception:
+                    pass  # Ignore cleanup errors
 
 
 def create_title_video(

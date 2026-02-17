@@ -5,7 +5,6 @@ These tests verify the structure and imports work correctly.
 """
 
 import sys
-import os
 
 
 def test_imports():
