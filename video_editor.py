@@ -15,6 +15,9 @@ from moviepy import (
     vfx
 )
 
+# Configure logging for the module
+logging.basicConfig(level=logging.WARNING, format='%(levelname)s: %(message)s')
+
 
 class VideoEditor:
     """Main video editor class for InSoil video processing."""
@@ -232,6 +235,10 @@ class VideoMerger:
         Returns:
             Path to the saved file
         """
+        # Validate input
+        if not video_paths:
+            raise ValueError("video_paths cannot be empty")
+        
         clips = []
         final_clip = None
         
@@ -244,6 +251,13 @@ class VideoMerger:
             
             # Apply crossfade if requested
             if transition_duration > 0:
+                # Validate we have at least 2 clips for crossfade
+                if len(clips) < 2:
+                    raise ValueError(
+                        "Crossfade transitions require at least 2 video clips. "
+                        "Provide multiple videos or set transition_duration to 0."
+                    )
+                
                 # Validate transition duration doesn't exceed shortest clip
                 min_duration = min(clip.duration for clip in clips)
                 if transition_duration > min_duration:
