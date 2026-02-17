@@ -89,142 +89,209 @@ class MainWindow(ctk.CTk):
         # New Project
         btn_new = ctk.CTkButton(
             self.toolbar_frame,
-            text="New Project",
+            text="📄 New Project",
             command=self.new_project,
-            width=120
+            width=130,
+            height=36,
+            corner_radius=8,
+            font=("Arial", 13, "bold")
         )
         btn_new.pack(side="left", padx=5, pady=10)
         
         # Save Project
         btn_save = ctk.CTkButton(
             self.toolbar_frame,
-            text="Save Project",
+            text="💾 Save Project",
             command=self.save_project,
-            width=120
+            width=130,
+            height=36,
+            corner_radius=8,
+            font=("Arial", 13, "bold")
         )
         btn_save.pack(side="left", padx=5, pady=10)
         
         # Load Project
         btn_load = ctk.CTkButton(
             self.toolbar_frame,
-            text="Load Project",
+            text="📂 Load Project",
             command=self.load_project,
-            width=120
+            width=130,
+            height=36,
+            corner_radius=8,
+            font=("Arial", 13, "bold")
         )
         btn_load.pack(side="left", padx=5, pady=10)
         
         # Separator
-        separator = ctk.CTkFrame(self.toolbar_frame, width=2, fg_color="gray")
+        separator = ctk.CTkFrame(self.toolbar_frame, width=2, fg_color="gray30")
         separator.pack(side="left", padx=10, pady=10, fill="y")
         
         # Import Video
         btn_import_video = ctk.CTkButton(
             self.toolbar_frame,
-            text="Import Video",
+            text="🎬 Import Video",
             command=self.import_video,
-            width=120
+            width=130,
+            height=36,
+            corner_radius=8,
+            fg_color="#1f6aa5",
+            hover_color="#144870",
+            font=("Arial", 13, "bold")
         )
         btn_import_video.pack(side="left", padx=5, pady=10)
         
         # Import Image
         btn_import_image = ctk.CTkButton(
             self.toolbar_frame,
-            text="Import Image",
+            text="🖼️ Import Image",
             command=self.import_image,
-            width=120
+            width=130,
+            height=36,
+            corner_radius=8,
+            fg_color="#1f6aa5",
+            hover_color="#144870",
+            font=("Arial", 13, "bold")
         )
         btn_import_image.pack(side="left", padx=5, pady=10)
         
         # Import Audio
         btn_import_audio = ctk.CTkButton(
             self.toolbar_frame,
-            text="Import Audio",
+            text="🎵 Import Audio",
             command=self.import_audio,
-            width=120
+            width=130,
+            height=36,
+            corner_radius=8,
+            fg_color="#1f6aa5",
+            hover_color="#144870",
+            font=("Arial", 13, "bold")
         )
         btn_import_audio.pack(side="left", padx=5, pady=10)
         
         # Separator
-        separator2 = ctk.CTkFrame(self.toolbar_frame, width=2, fg_color="gray")
+        separator2 = ctk.CTkFrame(self.toolbar_frame, width=2, fg_color="gray30")
         separator2.pack(side="left", padx=10, pady=10, fill="y")
         
         # Export Video
         btn_export = ctk.CTkButton(
             self.toolbar_frame,
-            text="Export Video",
+            text="✅ Export Video",
             command=self.export_video,
-            width=120,
-            fg_color="green"
+            width=140,
+            height=36,
+            corner_radius=8,
+            fg_color="#2d7a2d",
+            hover_color="#1f5a1f",
+            font=("Arial", 13, "bold")
         )
         btn_export.pack(side="left", padx=5, pady=10)
     
     def setup_preview_panel(self):
         """Setup video preview panel"""
         
-        # Title
+        # Title with icon
         title = ctk.CTkLabel(
             self.preview_frame,
-            text="Video Preview",
-            font=("Arial", 16, "bold")
+            text="🎥 Video Preview",
+            font=("Arial", 18, "bold"),
+            text_color="#3b8ed0"
         )
         title.pack(pady=10)
         
-        # Preview canvas (placeholder)
+        # Preview canvas with better styling
         self.preview_canvas = ctk.CTkLabel(
             self.preview_frame,
-            text="No video loaded",
+            text="No video loaded\n\nImport media files to see preview",
             width=640,
             height=360,
-            fg_color="black"
+            fg_color="#1a1a1a",
+            corner_radius=10,
+            font=("Arial", 14)
         )
         self.preview_canvas.pack(padx=10, pady=10)
         
-        # Playback controls
-        controls_frame = ctk.CTkFrame(self.preview_frame)
+        # Playback controls with better styling
+        controls_frame = ctk.CTkFrame(self.preview_frame, fg_color="transparent")
         controls_frame.pack(pady=10)
         
-        btn_play = ctk.CTkButton(controls_frame, text="▶ Play", width=80)
+        btn_play = ctk.CTkButton(
+            controls_frame, 
+            text="▶ Play", 
+            width=90,
+            height=36,
+            corner_radius=8,
+            fg_color="#2d7a2d",
+            hover_color="#1f5a1f",
+            font=("Arial", 12, "bold")
+        )
         btn_play.pack(side="left", padx=5)
         
-        btn_pause = ctk.CTkButton(controls_frame, text="⏸ Pause", width=80)
+        btn_pause = ctk.CTkButton(
+            controls_frame, 
+            text="⏸ Pause", 
+            width=90,
+            height=36,
+            corner_radius=8,
+            font=("Arial", 12, "bold")
+        )
         btn_pause.pack(side="left", padx=5)
         
-        btn_stop = ctk.CTkButton(controls_frame, text="⏹ Stop", width=80)
+        btn_stop = ctk.CTkButton(
+            controls_frame, 
+            text="⏹ Stop", 
+            width=90,
+            height=36,
+            corner_radius=8,
+            fg_color="#a52d2d",
+            hover_color="#7a1f1f",
+            font=("Arial", 12, "bold")
+        )
         btn_stop.pack(side="left", padx=5)
         
-        # Timeline slider
+        # Timeline slider with better styling
         self.timeline_slider = ctk.CTkSlider(
             self.preview_frame,
             from_=0,
             to=100,
-            width=620
+            width=620,
+            height=20,
+            button_color="#3b8ed0",
+            button_hover_color="#2d6a9f",
+            progress_color="#3b8ed0"
         )
         self.timeline_slider.pack(pady=10)
         self.timeline_slider.set(0)
         
-        # Time display
+        # Time display with better styling
         self.time_label = ctk.CTkLabel(
             self.preview_frame,
-            text="00:00:00 / 00:00:00"
+            text="00:00:00 / 00:00:00",
+            font=("Arial", 13, "bold"),
+            text_color="#b0b0b0"
         )
         self.time_label.pack()
     
     def setup_timeline_panel(self):
         """Setup timeline panel"""
         
-        # Title
+        # Title with icon
         title = ctk.CTkLabel(
             self.timeline_frame,
-            text="Timeline",
-            font=("Arial", 16, "bold")
+            text="📽️ Timeline",
+            font=("Arial", 18, "bold"),
+            text_color="#3b8ed0"
         )
         title.pack(pady=5)
         
-        # Timeline info
+        # Timeline info with better styling
         self.timeline_info = ctk.CTkTextbox(
             self.timeline_frame,
             height=120,
-            width=800
+            width=800,
+            corner_radius=8,
+            border_width=2,
+            border_color="#3b8ed0",
+            font=("Courier New", 11)
         )
         self.timeline_info.pack(padx=10, pady=5, fill="both", expand=True)
         self.timeline_info.insert("1.0", "Timeline is empty. Import videos, images, or audio to begin.")
@@ -232,52 +299,76 @@ class MainWindow(ctk.CTk):
     def setup_properties_panel(self):
         """Setup properties panel"""
         
-        # Title
+        # Title with icon
         title = ctk.CTkLabel(
             self.properties_frame,
-            text="Properties",
-            font=("Arial", 16, "bold")
+            text="⚙️ Properties",
+            font=("Arial", 18, "bold"),
+            text_color="#3b8ed0"
         )
         title.pack(pady=10)
         
-        # Properties display
+        # Properties display with better styling
         self.properties_text = ctk.CTkTextbox(
             self.properties_frame,
             width=280,
-            height=400
+            height=400,
+            corner_radius=8,
+            border_width=2,
+            border_color="#3b8ed0",
+            font=("Arial", 11)
         )
         self.properties_text.pack(padx=10, pady=10)
-        self.properties_text.insert("1.0", "Select a clip to view properties")
+        self.properties_text.insert("1.0", "Select a clip to view properties\n\nImported clips will appear here with:\n• Duration\n• Resolution\n• File size\n• Format")
         
-        # Export settings
+        # Export settings section
         export_label = ctk.CTkLabel(
             self.properties_frame,
-            text="Export Settings",
-            font=("Arial", 14, "bold")
+            text="📤 Export Settings",
+            font=("Arial", 16, "bold"),
+            text_color="#3b8ed0"
         )
-        export_label.pack(pady=10)
+        export_label.pack(pady=15)
         
-        # Quality selection
-        quality_label = ctk.CTkLabel(self.properties_frame, text="Quality:")
+        # Quality selection with better styling
+        quality_label = ctk.CTkLabel(
+            self.properties_frame, 
+            text="Quality:",
+            font=("Arial", 12, "bold")
+        )
         quality_label.pack(pady=5)
         
         self.quality_var = ctk.StringVar(value="high")
         quality_menu = ctk.CTkOptionMenu(
             self.properties_frame,
             values=["high", "medium", "low"],
-            variable=self.quality_var
+            variable=self.quality_var,
+            width=200,
+            height=32,
+            corner_radius=8,
+            font=("Arial", 12),
+            dropdown_font=("Arial", 11)
         )
         quality_menu.pack(pady=5)
         
-        # Format selection
-        format_label = ctk.CTkLabel(self.properties_frame, text="Format:")
+        # Format selection with better styling
+        format_label = ctk.CTkLabel(
+            self.properties_frame, 
+            text="Format:",
+            font=("Arial", 12, "bold")
+        )
         format_label.pack(pady=5)
         
         self.format_var = ctk.StringVar(value="mp4")
         format_menu = ctk.CTkOptionMenu(
             self.properties_frame,
             values=["mp4", "avi", "mov"],
-            variable=self.format_var
+            variable=self.format_var,
+            width=200,
+            height=32,
+            corner_radius=8,
+            font=("Arial", 12),
+            dropdown_font=("Arial", 11)
         )
         format_menu.pack(pady=5)
     
@@ -341,7 +432,13 @@ class MainWindow(ctk.CTk):
         if filepaths:
             for filepath in filepaths:
                 self.add_video_to_timeline(filepath)
-            messagebox.showinfo("Success", f"Imported {len(filepaths)} video(s)")
+            self.update_timeline_display()
+            messagebox.showinfo(
+                "Success", 
+                f"✅ Imported {len(filepaths)} video(s) successfully!\n\n"
+                f"Check the Timeline panel below to see your files.\n"
+                f"The Preview panel shows a summary of loaded media."
+            )
     
     def import_image(self):
         """Import image files"""
@@ -356,7 +453,13 @@ class MainWindow(ctk.CTk):
         if filepaths:
             for filepath in filepaths:
                 self.add_image_to_timeline(filepath)
-            messagebox.showinfo("Success", f"Imported {len(filepaths)} image(s)")
+            self.update_timeline_display()
+            messagebox.showinfo(
+                "Success", 
+                f"✅ Imported {len(filepaths)} image(s) successfully!\n\n"
+                f"Each image will display for 5 seconds.\n"
+                f"Check the Timeline panel below."
+            )
     
     def import_audio(self):
         """Import audio files"""
@@ -371,7 +474,13 @@ class MainWindow(ctk.CTk):
         if filepaths:
             for filepath in filepaths:
                 self.add_audio_to_timeline(filepath)
-            messagebox.showinfo("Success", f"Imported {len(filepaths)} audio file(s)")
+            self.update_timeline_display()
+            messagebox.showinfo(
+                "Success", 
+                f"✅ Imported {len(filepaths)} audio file(s) successfully!\n\n"
+                f"Audio will play alongside your video.\n"
+                f"Check the Timeline panel below."
+            )
     
     def add_video_to_timeline(self, filepath: str):
         """Add video clip to timeline"""
@@ -415,27 +524,115 @@ class MainWindow(ctk.CTk):
         """Update timeline display"""
         self.timeline_info.delete("1.0", "end")
         
-        timeline_text = "=== TIMELINE ===\n\n"
+        timeline_text = "╔═══════════════════════════════════════════════════════════════════╗\n"
+        timeline_text += "║                          TIMELINE VIEW                            ║\n"
+        timeline_text += "╚═══════════════════════════════════════════════════════════════════╝\n\n"
         
         # Video clips
-        timeline_text += "VIDEO CLIPS:\n"
-        for i, clip in enumerate(self.current_project['timeline']['video_clips'], 1):
-            timeline_text += f"  {i}. {clip['filepath']}\n"
+        video_clips = self.current_project['timeline']['video_clips']
+        if video_clips:
+            timeline_text += "🎬 VIDEO CLIPS:\n"
+            timeline_text += "─" * 70 + "\n"
+            for i, clip in enumerate(video_clips, 1):
+                filename = clip['filepath'].split('/')[-1].split('\\')[-1]
+                timeline_text += f"  [{i}] {filename}\n"
+                timeline_text += f"      📂 {clip['filepath']}\n"
+            timeline_text += "\n"
         
-        timeline_text += "\nIMAGE CLIPS:\n"
-        for i, clip in enumerate(self.current_project['timeline']['image_clips'], 1):
-            timeline_text += f"  {i}. {clip['filepath']} (Duration: {clip['duration']}s)\n"
+        # Image clips
+        image_clips = self.current_project['timeline']['image_clips']
+        if image_clips:
+            timeline_text += "🖼️  IMAGE CLIPS:\n"
+            timeline_text += "─" * 70 + "\n"
+            for i, clip in enumerate(image_clips, 1):
+                filename = clip['filepath'].split('/')[-1].split('\\')[-1]
+                timeline_text += f"  [{i}] {filename} ⏱️  Duration: {clip['duration']}s\n"
+                timeline_text += f"      📂 {clip['filepath']}\n"
+            timeline_text += "\n"
         
-        timeline_text += "\nAUDIO CLIPS:\n"
-        for i, clip in enumerate(self.current_project['timeline']['audio_clips'], 1):
-            timeline_text += f"  {i}. {clip['filepath']}\n"
+        # Audio clips
+        audio_clips = self.current_project['timeline']['audio_clips']
+        if audio_clips:
+            timeline_text += "🎵 AUDIO CLIPS:\n"
+            timeline_text += "─" * 70 + "\n"
+            for i, clip in enumerate(audio_clips, 1):
+                filename = clip['filepath'].split('/')[-1].split('\\')[-1]
+                timeline_text += f"  [{i}] {filename}\n"
+                timeline_text += f"      📂 {clip['filepath']}\n"
+            timeline_text += "\n"
         
-        if not (self.current_project['timeline']['video_clips'] or 
-                self.current_project['timeline']['image_clips'] or 
-                self.current_project['timeline']['audio_clips']):
-            timeline_text += "\nTimeline is empty. Import media files to begin."
+        if not (video_clips or image_clips or audio_clips):
+            timeline_text += "📭 Timeline is empty\n\n"
+            timeline_text += "Get started:\n"
+            timeline_text += "  1. Click 'Import Video' to add video clips\n"
+            timeline_text += "  2. Click 'Import Image' to add images\n"
+            timeline_text += "  3. Click 'Import Audio' to add audio\n"
+        else:
+            total_items = len(video_clips) + len(image_clips) + len(audio_clips)
+            timeline_text += f"\n📊 Total Items: {total_items} "
+            timeline_text += f"({len(video_clips)} videos, {len(image_clips)} images, {len(audio_clips)} audio)"
         
         self.timeline_info.insert("1.0", timeline_text)
+        
+        # Update preview to show first video or image
+        self.update_preview_display()
+    
+    def update_preview_display(self):
+        """Update preview to show imported media information"""
+        try:
+            video_clips = self.current_project['timeline']['video_clips']
+            image_clips = self.current_project['timeline']['image_clips']
+            audio_clips = self.current_project['timeline']['audio_clips']
+            
+            if not (video_clips or image_clips or audio_clips):
+                self.preview_canvas.configure(
+                    text="No media loaded\n\nImport videos, images, or audio to begin"
+                )
+                return
+            
+            # Build preview text
+            preview_text = "✅ Media Loaded Successfully!\n\n"
+            
+            if video_clips:
+                preview_text += f"🎬 Videos: {len(video_clips)}\n"
+                for i, clip in enumerate(video_clips[:3], 1):  # Show first 3
+                    filename = clip['filepath'].split('/')[-1].split('\\')[-1]
+                    preview_text += f"   • {filename}\n"
+                if len(video_clips) > 3:
+                    preview_text += f"   ... and {len(video_clips) - 3} more\n"
+                preview_text += "\n"
+            
+            if image_clips:
+                preview_text += f"🖼️  Images: {len(image_clips)}\n"
+                for i, clip in enumerate(image_clips[:3], 1):  # Show first 3
+                    filename = clip['filepath'].split('/')[-1].split('\\')[-1]
+                    preview_text += f"   • {filename} ({clip['duration']}s)\n"
+                if len(image_clips) > 3:
+                    preview_text += f"   ... and {len(image_clips) - 3} more\n"
+                preview_text += "\n"
+            
+            if audio_clips:
+                preview_text += f"🎵 Audio: {len(audio_clips)}\n"
+                for i, clip in enumerate(audio_clips[:3], 1):  # Show first 3
+                    filename = clip['filepath'].split('/')[-1].split('\\')[-1]
+                    preview_text += f"   • {filename}\n"
+                if len(audio_clips) > 3:
+                    preview_text += f"   ... and {len(audio_clips) - 3} more\n"
+            
+            preview_text += "\n━━━━━━━━━━━━━━━━━━━━━━━━\n"
+            preview_text += "Ready to export!\n"
+            preview_text += "Click 'Export Video' to create your video"
+            
+            self.preview_canvas.configure(
+                text=preview_text,
+                font=("Arial", 12)
+            )
+            
+        except Exception as e:
+            logger.error(f"Error updating preview: {e}")
+            self.preview_canvas.configure(
+                text=f"Preview update error\n\nMedia imported successfully\nCheck timeline below"
+            )
     
     def export_video(self):
         """Export final video"""
